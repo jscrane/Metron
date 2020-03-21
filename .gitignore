@@ -1,0 +1,7 @@
+.build/
+Metron.ino.cpp.d
+Metron.ino.cpp.o
+boards.local.txt.mk
+boards.txt.mk
+platform.txt.mk
+programmers.txt.mk
