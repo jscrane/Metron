@@ -11,10 +11,14 @@ const int batteryPin = A7;
 
 SimpleTimer timer;
 volatile unsigned secs;
+volatile bool flip;
 
 ISR(INT0_vect)
 {
-	secs = 0;
+	if (secs > 5)
+		secs = 0;
+	else
+		flip = !flip;
 }
 
 void tick() {
@@ -27,6 +31,7 @@ void tick() {
 		sleep_cpu();
 		sleep_disable();
 		oled.on();
+		secs = 0;
 	}
 }
 
@@ -80,6 +85,7 @@ void loop() {
 	long a = analogRead(batteryPin);
 	long bv = (5000 * a) / 1024;
 
+	oled.setRotation(flip);
 	oled.clear();
 	oled.setCursor(0, 0);
 	oled.setFont(FONT8X16);
