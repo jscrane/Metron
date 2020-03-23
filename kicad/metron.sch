@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:metron-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -29,7 +30,7 @@ L Connector:Conn_01x06_Female J1
 U 1 1 5CFE3D69
 P 4900 1150
 F 0 "J1" V 4840 762 50  0000 R CNN
-F 1 "ftdi" V 4749 762 50  0000 R CNN
+F 1 "FTDI" V 4749 762 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 4900 1150 50  0001 C CNN
 F 3 "~" H 4900 1150 50  0001 C CNN
 	1    4900 1150
@@ -114,37 +115,6 @@ $EndComp
 Connection ~ 4900 1450
 Wire Wire Line
 	4900 1450 4900 1350
-Wire Wire Line
-	5650 2600 5900 2600
-Wire Wire Line
-	5900 2600 5900 1450
-Wire Wire Line
-	5900 1450 5100 1450
-Wire Wire Line
-	5100 1450 5100 1350
-Wire Wire Line
-	5650 2700 5800 2700
-Wire Wire Line
-	5800 2700 5800 1550
-Wire Wire Line
-	5800 1550 5000 1550
-Wire Wire Line
-	5000 1550 5000 1350
-Wire Wire Line
-	5200 1350 6000 1350
-Wire Wire Line
-	6000 1350 6000 1700
-$Comp
-L Device:C_Small C2
-U 1 1 5CFE4F03
-P 6000 1800
-F 0 "C2" H 6092 1846 50  0000 L CNN
-F 1 "100n" H 6092 1755 50  0000 L CNN
-F 2 "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm" H 6000 1800 50  0001 C CNN
-F 3 "~" H 6000 1800 50  0001 C CNN
-	1    6000 1800
-	1    0    0    -1  
-$EndComp
 $Comp
 L Device:C_Small C1
 U 1 1 5CFE502F
@@ -181,26 +151,26 @@ $EndComp
 $Comp
 L Device:R_Small R2
 U 1 1 5CFE5177
-P 6250 2350
-F 0 "R2" V 6054 2350 50  0000 C CNN
-F 1 "10k" V 6145 2350 50  0000 C CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" H 6250 2350 50  0001 C CNN
-F 3 "~" H 6250 2350 50  0001 C CNN
-	1    6250 2350
+P 5950 1650
+F 0 "R2" V 5754 1650 50  0000 C CNN
+F 1 "10k" V 5845 1650 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" H 5950 1650 50  0001 C CNN
+F 3 "~" H 5950 1650 50  0001 C CNN
+	1    5950 1650
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	6350 2350 6500 2350
+	6050 1650 6200 1650
 $Comp
 L power:VCC #PWR08
 U 1 1 5CFE53CC
-P 6500 2350
-F 0 "#PWR08" H 6500 2200 50  0001 C CNN
-F 1 "VCC" H 6517 2523 50  0000 C CNN
-F 2 "" H 6500 2350 50  0001 C CNN
-F 3 "" H 6500 2350 50  0001 C CNN
-	1    6500 2350
-	0    1    1    0   
+P 6200 1650
+F 0 "#PWR08" H 6200 1500 50  0001 C CNN
+F 1 "VCC" V 6217 1823 50  0000 C CNN
+F 2 "" H 6200 1650 50  0001 C CNN
+F 3 "" H 6200 1650 50  0001 C CNN
+	1    6200 1650
+	1    0    0    -1  
 $EndComp
 $Comp
 L Switch:SW_Push SW1
@@ -273,15 +243,6 @@ F 3 "~" H 6250 3400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5650 3700 6000 3700
-Wire Wire Line
-	6000 3700 6000 2350
-Wire Wire Line
-	6000 2350 6150 2350
-Connection ~ 6000 2350
-Wire Wire Line
-	6000 2350 6000 1900
-Wire Wire Line
 	6250 3600 6250 3500
 Connection ~ 6250 3600
 Wire Wire Line
@@ -289,16 +250,14 @@ Wire Wire Line
 $Comp
 L power:VCC #PWR0103
 U 1 1 5E779F5A
-P 6250 3200
-F 0 "#PWR0103" H 6250 3050 50  0001 C CNN
-F 1 "VCC" H 6267 3373 50  0000 C CNN
-F 2 "" H 6250 3200 50  0001 C CNN
-F 3 "" H 6250 3200 50  0001 C CNN
-	1    6250 3200
+P 6250 3300
+F 0 "#PWR0103" H 6250 3150 50  0001 C CNN
+F 1 "VCC" H 6267 3473 50  0000 C CNN
+F 2 "" H 6250 3300 50  0001 C CNN
+F 3 "" H 6250 3300 50  0001 C CNN
+	1    6250 3300
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	6250 3200 6250 3300
 Wire Wire Line
 	3600 2750 3550 2750
 Wire Wire Line
@@ -368,10 +327,71 @@ Text Label 5700 3100 0    50   ~ 0
 SDA
 Text Label 5700 2900 0    50   ~ 0
 SCL
-NoConn ~ 5650 2500
 NoConn ~ 5650 2800
 NoConn ~ 5650 3000
 NoConn ~ 5650 3200
 Wire Wire Line
 	5650 3600 6250 3600
+$Comp
+L Device:Battery_Cell BT1
+U 1 1 5E787B9E
+P 3350 2000
+F 0 "BT1" H 3468 2096 50  0000 L CNN
+F 1 "Battery_Cell" H 3468 2005 50  0000 L CNN
+F 2 "" V 3350 2060 50  0001 C CNN
+F 3 "~" V 3350 2060 50  0001 C CNN
+	1    3350 2000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR011
+U 1 1 5E787BE8
+P 3350 2100
+F 0 "#PWR011" H 3350 1850 50  0001 C CNN
+F 1 "GND" H 3355 1927 50  0000 C CNN
+F 2 "" H 3350 2100 50  0001 C CNN
+F 3 "" H 3350 2100 50  0001 C CNN
+	1    3350 2100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 1800 3350 1750
+Text Label 3350 1750 0    50   ~ 0
+BATT
+Text Label 5650 2500 0    50   ~ 0
+BATT
+$Comp
+L Device:C_Small C2
+U 1 1 5CFE4F03
+P 5600 1650
+F 0 "C2" H 5692 1696 50  0000 L CNN
+F 1 "100n" H 5692 1605 50  0000 L CNN
+F 2 "Capacitor_THT:C_Disc_D6.0mm_W2.5mm_P5.00mm" H 5600 1650 50  0001 C CNN
+F 3 "~" H 5600 1650 50  0001 C CNN
+	1    5600 1650
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5850 1650 5750 1650
+Text Label 5650 3700 0    50   ~ 0
+RESET
+Wire Wire Line
+	5750 1650 5750 1750
+Connection ~ 5750 1650
+Wire Wire Line
+	5750 1650 5700 1650
+Text Label 5750 1750 3    50   ~ 0
+RESET
+Text Label 5100 1350 3    50   ~ 0
+RxD
+Text Label 5650 2600 0    50   ~ 0
+RxD
+Text Label 5650 2700 0    50   ~ 0
+TxD
+Text Label 5000 1350 3    50   ~ 0
+TxD
+Wire Wire Line
+	5200 1350 5200 1650
+Wire Wire Line
+	5200 1650 5500 1650
 $EndSCHEMATC
