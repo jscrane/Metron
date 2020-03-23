@@ -9,7 +9,7 @@ distance sensor.
 - Push-button
 - 10k resistor
 - 22k resistor
-- 2x 10nF ceramic capacitor
+- 2x 100nF ceramic capacitor
 - 128x32 I2C OLED display
 - HCSR-04 ultrasonic distance sensor module
 
