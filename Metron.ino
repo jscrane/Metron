@@ -14,85 +14,85 @@ volatile unsigned secs;
 
 ISR(INT0_vect)
 {
-  secs = 0;
+	secs = 0;
 }
 
 void tick() {
-  secs++;
-  if (secs == onTime) {
-    oled.off();
-    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-    sleep_enable();
-    interrupts();
-    sleep_cpu();
-    sleep_disable();
-    oled.on();
-  }
+	secs++;
+	if (secs == onTime) {
+		oled.off();
+		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+		sleep_enable();
+		interrupts();
+		sleep_cpu();
+		sleep_disable();
+		oled.on();
+	}
 }
 
 void setup() {
-  pinMode(buttonPin, INPUT_PULLUP);
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);  
+	pinMode(buttonPin, INPUT_PULLUP);
+	pinMode(trigPin, OUTPUT);
+	pinMode(echoPin, INPUT);	
 
-  noInterrupts();
-  MCUCR &= ~(bit(ISC01) | bit(ISC00));
-  GIMSK |= bit(INT0);
-  interrupts();
-  
-  oled.begin();
-  oled.setRotation(0);
-  oled.setFont(FONT8X16);
+	noInterrupts();
+	MCUCR &= ~(bit(ISC01) | bit(ISC00));
+	GIMSK |= bit(INT0);
+	interrupts();
+	
+	oled.begin();
+	oled.setRotation(0);
+	oled.setFont(FONT8X16);
 
-  oled.clear();
-  oled.on();
-  oled.switchRenderFrame();
+	oled.clear();
+	oled.on();
+	oled.switchRenderFrame();
 
-  timer.setInterval(1000, tick);
+	timer.setInterval(1000, tick);
 }
 
 long update(long mm) {
-  const int buflen = 12;
-  static long buf[buflen];
-  static long t;
-  static int i;
+	const int buflen = 12;
+	static long buf[buflen];
+	static long t;
+	static int i;
 
-  t += mm - buf[i];
-  buf[i++] = mm;
-  if (i == buflen) i = 0;
-  return t / buflen;
+	t += mm - buf[i];
+	buf[i++] = mm;
+	if (i == buflen) i = 0;
+	return t / buflen;
 }
 
 void loop() {
-  timer.run();
-  
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
+	timer.run();
+	
+	digitalWrite(trigPin, LOW);
+	delayMicroseconds(2);
 
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
+	digitalWrite(trigPin, HIGH);
+	delayMicroseconds(10);
+	digitalWrite(trigPin, LOW);
 
-  long duration = pulseIn(echoPin, HIGH);
-  long mm = (duration * 343) / 1000;
-  long av = update(mm);
-  
-  long a = analogRead(batteryPin);
-  long bv = (5000 * a) / 1024;
+	long duration = pulseIn(echoPin, HIGH);
+	long mm = (duration * 343) / 1000;
+	long av = update(mm);
+	
+	long a = analogRead(batteryPin);
+	long bv = (5000 * a) / 1024;
 
-  oled.clear();
-  oled.setCursor(0, 0);
-  oled.setFont(FONT8X16);
-  oled.print(av);
-  oled.print(F("mm"));
+	oled.clear();
+	oled.setCursor(0, 0);
+	oled.setFont(FONT8X16);
+	oled.print(av);
+	oled.print(F("mm"));
 
-  oled.setCursor(100, 0);
-  oled.setFont(FONT6X8);
-  oled.print(secs);
+	oled.setCursor(100, 0);
+	oled.setFont(FONT6X8);
+	oled.print(secs);
 
-  oled.setCursor(80, 3);
-  oled.print(bv);
-  oled.print(F("mV"));
+	oled.setCursor(80, 3);
+	oled.print(bv);
+	oled.print(F("mV"));
 
-  oled.switchFrame();
+	oled.switchFrame();
 }
