@@ -39,4 +39,4 @@ This is for a part with R0=10k and B=3435, see the description of the
 [Steinhart-Hart equation](https://en.wikipedia.org/wiki/Thermistor#Steinhart%E2%80%93Hart_equation).
 
 (Conveniently all of the values in this range fit in 16-bits so the entire array takes up
-only 100 bytes.)
+only 100 bytes of flash.)
