@@ -12,7 +12,7 @@ distance sensor.
 - 2x 100nF ceramic capacitor
 - 128x32 I2C OLED display
 - HCSR-04 ultrasonic distance sensor module
-- 10k thermistor (B = 3435, see below)
+- 10k NTC thermistor (B = 3435, see below)
 
 ## Software
 
@@ -35,7 +35,7 @@ resistances as follows:
 (map (steinhart-hart 10000 3435) (range 0 50))
 ```
 
-This is for a part with R0=10k and B=3435, see the description of the 
+This is for an NTC part with R0=10k and B=3435, see the description of the 
 [Steinhart-Hart equation](https://en.wikipedia.org/wiki/Thermistor#Steinhart%E2%80%93Hart_equation).
 
 (Conveniently all of the values in this range fit in 16-bits so the entire array takes up
