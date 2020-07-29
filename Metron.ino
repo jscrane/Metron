@@ -8,10 +8,29 @@ const int echoPin = 9;
 const int buttonPin = 8;
 const int onTime = 10;
 const int batteryPin = A7;
+const int thermistorPin = A5;
+const int rb = 14780;
 
 SimpleTimer timer;
 volatile unsigned secs;
 volatile bool flip;
+
+// index is temperature in degree C
+const PROGMEM uint16_t resistances[] = {
+	28704, 27417, 26197, 25039, 23940, 22897, 21906, 20964, 20070, 19219,
+	18410, 17641, 16909, 16212, 15548, 14916, 14313, 13739, 13192, 12669,
+	12171, 11696, 11242, 10809, 10395, 10000, 9622, 9261, 8916, 8585,
+	8269, 7967, 7678, 7400, 7135, 6881, 6637, 6403, 6179, 5965,
+	5759, 5561, 5372, 5189, 5015, 4847, 4686, 4531, 4382, 4239
+};
+
+int temperature(uint16_t r) {
+	const int tmax = sizeof(resistances) / sizeof(uint16_t);
+	for (int i = 0; i < tmax; i++)
+		if (r > pgm_read_word_near(resistances + i))
+			return i-1;
+	return tmax;
+}
 
 ISR(INT0_vect)
 {
@@ -31,7 +50,6 @@ void tick() {
 		sleep_cpu();
 		sleep_disable();
 		oled.on();
-		secs = 0;
 	}
 }
 
@@ -81,12 +99,17 @@ void loop() {
 	long duration = pulseIn(echoPin, HIGH);
 	long mm = (duration * 343) / 1000;
 	long av = update(mm);
-	
+
 	long a = analogRead(batteryPin);
 	long bv = (5000 * a) / 1024;
 
+	long th = analogRead(thermistorPin);
+	uint16_t r = uint16_t((rb * 1023L) / th - rb);
+	int t = temperature(r);
+	
 	oled.setRotation(flip);
 	oled.clear();
+
 	oled.setCursor(0, 0);
 	oled.setFont(FONT8X16);
 	oled.print(av);
@@ -99,6 +122,10 @@ void loop() {
 	oled.setCursor(80, 3);
 	oled.print(bv);
 	oled.print(F("mV"));
+
+	oled.setCursor(0, 3);
+	oled.print(t);
+	oled.print('C');
 
 	oled.switchFrame();
 }
