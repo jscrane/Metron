@@ -15,7 +15,7 @@ SimpleTimer timer;
 volatile unsigned secs;
 volatile bool flip;
 
-// index is temperature in degree C
+// index is temperature in degree C: for NTC thermistors!
 const PROGMEM uint16_t resistances[] = {
 	28704, 27417, 26197, 25039, 23940, 22897, 21906, 20964, 20070, 19219,
 	18410, 17641, 16909, 16212, 15548, 14916, 14313, 13739, 13192, 12669,
@@ -50,6 +50,7 @@ void tick() {
 		sleep_cpu();
 		sleep_disable();
 		oled.on();
+		secs = 0;
 	}
 }
 
@@ -86,9 +87,7 @@ long update(long mm) {
 	return t / buflen;
 }
 
-void loop() {
-	timer.run();
-	
+long distance(int tc) {
 	digitalWrite(trigPin, LOW);
 	delayMicroseconds(2);
 
@@ -96,17 +95,26 @@ void loop() {
 	delayMicroseconds(10);
 	digitalWrite(trigPin, LOW);
 
-	long duration = pulseIn(echoPin, HIGH);
-	long mm = (duration * 343) / 1000;
+	long usec = pulseIn(echoPin, HIGH);
+
+	// https://en.wikipedia.org/wiki/Speed_of_sound#Practical_formula_for_dry_air
+	long cair = (331300 + 606 * tc) / 1000;
+	return (usec * cair) / 1000;
+}
+
+void loop() {
+	timer.run();
+
+	long th = analogRead(thermistorPin);
+	uint16_t r = uint16_t((rb * 1023L) / th - rb);
+	int tc = temperature(r);
+
+	long mm = distance(tc);
 	long av = update(mm);
 
 	long a = analogRead(batteryPin);
 	long bv = (5000 * a) / 1024;
 
-	long th = analogRead(thermistorPin);
-	uint16_t r = uint16_t((rb * 1023L) / th - rb);
-	int t = temperature(r);
-	
 	oled.setRotation(flip);
 	oled.clear();
 
@@ -124,7 +132,7 @@ void loop() {
 	oled.print(F("mV"));
 
 	oled.setCursor(0, 3);
-	oled.print(t);
+	oled.print(tc);
 	oled.print('C');
 
 	oled.switchFrame();
