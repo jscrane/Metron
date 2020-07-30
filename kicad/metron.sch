@@ -319,17 +319,11 @@ Text Label 3550 3600 2    50   ~ 0
 SCL
 Text Label 3550 3700 2    50   ~ 0
 SDA
-Wire Wire Line
-	5650 3100 5700 3100
-Wire Wire Line
-	5650 2900 5700 2900
-Text Label 5700 3100 0    50   ~ 0
+Text Label 5650 3100 0    50   ~ 0
 SDA
-Text Label 5700 2900 0    50   ~ 0
+Text Label 5650 2900 0    50   ~ 0
 SCL
 NoConn ~ 5650 2800
-NoConn ~ 5650 3000
-NoConn ~ 5650 3200
 Wire Wire Line
 	5650 3600 6250 3600
 $Comp
@@ -337,7 +331,7 @@ L Device:Battery_Cell BT1
 U 1 1 5E787B9E
 P 3350 2000
 F 0 "BT1" H 3468 2096 50  0000 L CNN
-F 1 "Battery_Cell" H 3468 2005 50  0000 L CNN
+F 1 "AAA" H 3468 2005 50  0000 L CNN
 F 2 "" V 3350 2060 50  0001 C CNN
 F 3 "~" V 3350 2060 50  0001 C CNN
 	1    3350 2000
@@ -357,8 +351,6 @@ $EndComp
 Wire Wire Line
 	3350 1800 3350 1750
 Text Label 3350 1750 0    50   ~ 0
-BATT
-Text Label 5650 2500 0    50   ~ 0
 BATT
 $Comp
 L Device:C_Small C2
@@ -394,4 +386,79 @@ Wire Wire Line
 	5200 1350 5200 1650
 Wire Wire Line
 	5200 1650 5500 1650
+$Comp
+L Connector:Conn_01x03_Female J4
+U 1 1 5E79ED1F
+P 3750 1450
+F 0 "J4" H 3777 1476 50  0000 L CNN
+F 1 "Boost" H 3777 1385 50  0000 L CNN
+F 2 "" H 3750 1450 50  0001 C CNN
+F 3 "~" H 3750 1450 50  0001 C CNN
+	1    3750 1450
+	1    0    0    -1  
+$EndComp
+Text Label 3550 1350 2    50   ~ 0
+BATT
+Text Label 3550 1450 2    50   ~ 0
+GND
+Text Label 3550 1550 2    50   ~ 0
+VCC
+Text Label 5650 3200 0    50   ~ 0
+BATT
+NoConn ~ 5650 2500
+Text Label 5650 3000 0    50   ~ 0
+TEMP
+$Comp
+L Device:Thermistor_NTC TH1
+U 1 1 5F2281A5
+P 6350 2200
+F 0 "TH1" H 6447 2246 50  0000 L CNN
+F 1 "10k" H 6447 2155 50  0000 L CNN
+F 2 "" H 6350 2250 50  0001 C CNN
+F 3 "~" H 6350 2250 50  0001 C CNN
+	1    6350 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small R3
+U 1 1 5F2281FD
+P 6350 2550
+F 0 "R3" V 6154 2550 50  0000 C CNN
+F 1 "15k" V 6245 2550 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" H 6350 2550 50  0001 C CNN
+F 3 "~" H 6350 2550 50  0001 C CNN
+	1    6350 2550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 2350 6350 2400
+Wire Wire Line
+	6350 2400 6550 2400
+Connection ~ 6350 2400
+Wire Wire Line
+	6350 2400 6350 2450
+Text Label 6550 2400 0    50   ~ 0
+TEMP
+$Comp
+L power:VCC #PWR0104
+U 1 1 5F2288E4
+P 6350 2050
+F 0 "#PWR0104" H 6350 1900 50  0001 C CNN
+F 1 "VCC" H 6367 2223 50  0000 C CNN
+F 2 "" H 6350 2050 50  0001 C CNN
+F 3 "" H 6350 2050 50  0001 C CNN
+	1    6350 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5F228916
+P 6350 2650
+F 0 "#PWR0105" H 6350 2400 50  0001 C CNN
+F 1 "GND" H 6355 2477 50  0000 C CNN
+F 2 "" H 6350 2650 50  0001 C CNN
+F 3 "" H 6350 2650 50  0001 C CNN
+	1    6350 2650
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
