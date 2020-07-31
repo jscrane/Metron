@@ -1,4 +1,5 @@
 #include <avr/sleep.h>
+#include <avr/power.h>
 #include <Wire.h>
 #include <Tiny4kOLED.h>
 #include <SimpleTimer.h>
@@ -44,11 +45,13 @@ void tick() {
 	secs++;
 	if (secs == onTime) {
 		oled.off();
+		power_adc_disable();
 		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 		sleep_enable();
 		interrupts();
 		sleep_cpu();
 		sleep_disable();
+		power_adc_enable();
 		oled.on();
 		secs = 0;
 	}
@@ -58,6 +61,12 @@ void setup() {
 	pinMode(buttonPin, INPUT_PULLUP);
 	pinMode(trigPin, OUTPUT);
 	pinMode(echoPin, INPUT);	
+
+	// unused pins
+	pinMode(PIN_A0, INPUT_PULLUP);
+	pinMode(PIN_A1, INPUT_PULLUP);
+	pinMode(PIN_A2, INPUT_PULLUP);
+	pinMode(PIN_A3, INPUT_PULLUP);
 
 	noInterrupts();
 	MCUCR &= ~(bit(ISC01) | bit(ISC00));
