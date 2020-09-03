@@ -4,9 +4,10 @@
 #include <Tiny4kOLED.h>
 #include <SimpleTimer.h>
 
-const int trigPin = 10;
-const int echoPin = 9;
-const int buttonPin = 8;
+const int trigPin = PIN_PB0;
+const int echoPin = PIN_PB1;
+const int buttonPin = PIN_PB2;
+const int devicePowerPin = PIN_PA3;
 const int onTime = 10;
 const int batteryPin = A7;
 const int thermistorPin = A5;
@@ -46,11 +47,13 @@ void tick() {
 	if (secs == onTime) {
 		oled.off();
 		power_adc_disable();
+		digitalWrite(devicePowerPin, LOW);
 		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 		sleep_enable();
 		interrupts();
 		sleep_cpu();
 		sleep_disable();
+		digitalWrite(devicePowerPin, HIGH);
 		power_adc_enable();
 		oled.on();
 		secs = 0;
@@ -59,14 +62,15 @@ void tick() {
 
 void setup() {
 	pinMode(buttonPin, INPUT_PULLUP);
+	pinMode(devicePowerPin, OUTPUT);
+	digitalWrite(devicePowerPin, HIGH);
 	pinMode(trigPin, OUTPUT);
 	pinMode(echoPin, INPUT);	
 
 	// unused pins
-	pinMode(PIN_A0, INPUT_PULLUP);
-	pinMode(PIN_A1, INPUT_PULLUP);
-	pinMode(PIN_A2, INPUT_PULLUP);
-	pinMode(PIN_A3, INPUT_PULLUP);
+	pinMode(PIN_PA0, INPUT_PULLUP);
+	pinMode(PIN_PA1, INPUT_PULLUP);
+	pinMode(PIN_PA2, INPUT_PULLUP);
 
 	noInterrupts();
 	MCUCR &= ~(bit(ISC01) | bit(ISC00));
@@ -76,7 +80,6 @@ void setup() {
 	oled.begin();
 	oled.setRotation(0);
 	oled.setFont(FONT8X16);
-
 	oled.clear();
 	oled.on();
 	oled.switchRenderFrame();
