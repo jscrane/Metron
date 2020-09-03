@@ -47,12 +47,15 @@ void tick() {
 	if (secs == onTime) {
 		oled.off();
 		power_adc_disable();
-		digitalWrite(devicePowerPin, LOW);
+		pinMode(devicePowerPin, INPUT);
+		pinMode(trigPin, INPUT);
 		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 		sleep_enable();
 		interrupts();
 		sleep_cpu();
 		sleep_disable();
+		pinMode(trigPin, OUTPUT);
+		pinMode(devicePowerPin, OUTPUT);
 		digitalWrite(devicePowerPin, HIGH);
 		power_adc_enable();
 		oled.on();
