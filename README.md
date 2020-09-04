@@ -1,7 +1,6 @@
 # Metron
 
-Digital "measuring tape" with OLED display and HCSR04 ultrasonic 
-distance sensor.
+Digital "measuring tape" with OLED display and HCSR04 ultrasonic distance sensor.
 
 ## Hardware
 
@@ -13,6 +12,10 @@ distance sensor.
 - 128x32 I2C OLED display
 - HCSR-04 ultrasonic distance sensor module
 - 10k NTC thermistor (B = 3435, see below)
+- 1k resistor
+- 2N3904 transistor
+- 5v boost converter module
+- AAA battery and holder
 
 ## Software
 
