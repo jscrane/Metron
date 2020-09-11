@@ -1,5 +1,6 @@
 #include <avr/sleep.h>
 #include <avr/power.h>
+#include <avr/wdt.h>
 #include <Wire.h>
 #include <Tiny4kOLED.h>
 #include <SimpleTimer.h>
@@ -45,25 +46,48 @@ ISR(INT0_vect)
 void tick() {
 	secs++;
 	if (secs == onTime) {
+		power_timer0_disable();
+
 		oled.off();
+		power_usi_disable();
+
+		uint8_t adcsra = ADCSRA;
+		ADCSRA = 0;
 		power_adc_disable();
+
+		digitalWrite(devicePowerPin, LOW);
 		pinMode(devicePowerPin, INPUT);
+		digitalWrite(trigPin, LOW);
 		pinMode(trigPin, INPUT);
+
 		set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+		noInterrupts();
 		sleep_enable();
+		sleep_bod_disable();
 		interrupts();
 		sleep_cpu();
 		sleep_disable();
+
 		pinMode(trigPin, OUTPUT);
 		pinMode(devicePowerPin, OUTPUT);
 		digitalWrite(devicePowerPin, HIGH);
+
+		ADCSRA = adcsra;
 		power_adc_enable();
+
+		power_usi_enable();
 		oled.on();
+
+		power_timer0_enable();
 		secs = 0;
 	}
 }
 
 void setup() {
+	MCUCR = 0;
+	wdt_disable();
+	power_timer1_disable();
+
 	pinMode(buttonPin, INPUT_PULLUP);
 	pinMode(devicePowerPin, OUTPUT);
 	digitalWrite(devicePowerPin, HIGH);
@@ -81,6 +105,7 @@ void setup() {
 	interrupts();
 	
 	oled.begin();
+	oled.setContrast(31);
 	oled.setRotation(0);
 	oled.setFont(FONT8X16);
 	oled.clear();
